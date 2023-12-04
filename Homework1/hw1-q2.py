@@ -78,9 +78,9 @@ class FeedforwardNetwork(nn.Module):
         self.dropout = nn.Dropout(p = dropout)
         
         if activation_type == 'tanh':
-            self.activation == nn.Tanh()
+            self.activation = nn.Tanh()
         elif activation_type == 'relu':
-            self.activation == nn.ReLU()
+            self.activation = nn.ReLU()
             
         #raise NotImplementedError
 
