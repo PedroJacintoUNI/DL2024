@@ -236,7 +236,7 @@ def main():
     parser.add_argument('-hidden_size', type=int, default=200,
                         help="""Number of units in hidden layers (needed only
                         for MLP, not perceptron or logistic regression)""")
-    parser.add_argument('-learning_rate', type=float, default=0.001,
+    parser.add_argument('-learning_rate', type=float, default=0.01,
                         help="""Learning rate for parameter updates (needed for
                         logistic regression and MLP, but not perceptron)""")
     opt = parser.parse_args()
