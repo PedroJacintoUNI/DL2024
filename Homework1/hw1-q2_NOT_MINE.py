@@ -158,23 +158,19 @@ def plot(epochs, plottable, ylabel='', name=''):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('model',
-                        choices=['logistic_regression', 'mlp'],
+    parser.add_argument('model', choices=['logistic_regression', 'mlp'],
                         help="Which model should the script run?")
     parser.add_argument('-epochs', default=20, type=int,
                         help="""Number of epochs to train for. You should not
                         need to change this value for your plots.""")
-    parser.add_argument('-batch_size', default=16, type=int,
-                        help="Size of training batch.")
-    parser.add_argument('-learning_rate', type=float, default=0.001)
+    parser.add_argument('-batch_size', default=1, type=int, help="Size of training batch.")
+    parser.add_argument('-learning_rate', type=float, default=0.01)
     parser.add_argument('-l2_decay', type=float, default=0)
     parser.add_argument('-hidden_size', type=int, default=100)
     parser.add_argument('-layers', type=int, default=1)
     parser.add_argument('-dropout', type=float, default=0.3)
-    parser.add_argument('-activation',
-                        choices=['tanh', 'relu'], default='relu')
-    parser.add_argument('-optimizer',
-                        choices=['sgd', 'adam'], default='sgd')
+    parser.add_argument('-activation', choices=['tanh', 'relu'], default='relu')
+    parser.add_argument('-optimizer', choices=['sgd', 'adam'], default='sgd')
     opt = parser.parse_args()
 
     utils.configure_seed(seed=42)
@@ -182,7 +178,7 @@ def main():
     data = utils.load_oct_data()
     dataset = utils.ClassificationDataset(data)
     train_dataloader = DataLoader(
-        dataset, batch_size=opt.batch_size, shuffle=True, generator=torch.Generator().manual_seed(42))
+        dataset, batch_size=opt.batch_size, shuffle=True)
 
     dev_X, dev_y = dataset.dev_X, dataset.dev_y
     test_X, test_y = dataset.test_X, dataset.test_y
@@ -217,55 +213,34 @@ def main():
 
     # training loop
     epochs = torch.arange(1, opt.epochs + 1)
-    train_losses = []
-    valid_losses = []
+    train_mean_losses = []
     valid_accs = []
+    train_losses = []
     for ii in epochs:
         print('Training epoch {}'.format(ii))
-        epoch_train_losses = []
         for X_batch, y_batch in train_dataloader:
             loss = train_batch(
                 X_batch, y_batch, model, optimizer, criterion)
-            epoch_train_losses.append(loss)
+            train_losses.append(loss)
 
-        epoch_train_loss = torch.tensor(epoch_train_losses).mean().item()
-        val_loss, val_acc = evaluate(model, dev_X, dev_y, criterion)
+        mean_loss = torch.tensor(train_losses).mean().item()
+        print('Training loss: %.4f' % (mean_loss))
 
-        print('Training loss: %.4f' % epoch_train_loss)
-        print('Valid acc: %.4f' % val_acc)
+        train_mean_losses.append(mean_loss)
+        valid_accs.append(evaluate(model, dev_X, dev_y))
+        print('Valid acc: %.4f' % (valid_accs[-1]))
 
-        train_losses.append(epoch_train_loss)
-        valid_losses.append(val_loss)
-        valid_accs.append(val_acc)
-
-    _, test_acc = evaluate(model, test_X, test_y, criterion)
-    print('Final Test acc: %.4f' % (test_acc))
+    print('Final Test acc: %.4f' % (evaluate(model, test_X, test_y)))
     # plot
     if opt.model == "logistic_regression":
-        config = (
-            f"batch-{opt.batch_size}-lr-{opt.learning_rate}-epochs-{opt.epochs}-"
-            f"l2-{opt.l2_decay}-opt-{opt.optimizer}"
-        )
+        config = "{}-{}".format(opt.learning_rate, opt.optimizer)
     else:
-        config = (
-            f"batch-{opt.batch_size}-lr-{opt.learning_rate}-epochs-{opt.epochs}-"
-            f"hidden-{opt.hidden_size}-dropout-{opt.dropout}-l2-{opt.l2_decay}-"
-            f"layers-{opt.layers}-act-{opt.activation}-opt-{opt.optimizer}"
-        )
+        config = "{}-{}-{}-{}-{}-{}-{}".format(opt.learning_rate, opt.hidden_size, opt.layers, opt.dropout,
+                                               opt.activation, opt.optimizer, opt.batch_size)
 
-    losses = {
-        "Train Loss": train_losses,
-        "Valid Loss": valid_losses,
-    }
-    # Choose ylim based on model since logistic regression has higher loss
-    if opt.model == "logistic_regression":
-        ylim = (0., 1.6)
-    elif opt.model == "mlp":
-        ylim = (0., 1.2)
-    else:
-        raise ValueError(f"Unknown model {opt.model}")
-    plot(epochs, losses, name=f'{opt.model}-training-loss-{config}', ylim=ylim)
-    accuracy = { "Valid Accuracy": valid_accs }
-    plot(epochs, accuracy, name=f'{opt.model}-validation-accuracy-{config}', ylim=(0., 1.))
+    plot(epochs, train_mean_losses, ylabel='Loss', name='{}-training-loss-{}'.format(opt.model, config))
+    plot(epochs, valid_accs, ylabel='Accuracy', name='{}-validation-accuracy-{}'.format(opt.model, config))
+
+
 if __name__ == '__main__':
     main()
