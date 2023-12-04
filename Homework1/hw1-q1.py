@@ -14,16 +14,8 @@ class LinearModel(object):
         self.W = np.zeros((n_classes, n_features))
 
     def update_weight(self, x_i, y_i, **kwargs):
-        scores = np.dot(self.W, x_i)
-        predicted_class = np.argmax(scores)
-
-        # Compute the gradient only for the predicted class
-        gradient = np.zeros_like(self.W)
-        gradient[predicted_class, :] = x_i
-
-        # Update weights using SGD
-        self.W -= self.learning_rate * gradient
-        #raise NotImplementedError
+        
+        raise NotImplementedError
 
     def train_epoch(self, X, y, **kwargs):
         for x_i, y_i in zip(X, y):
