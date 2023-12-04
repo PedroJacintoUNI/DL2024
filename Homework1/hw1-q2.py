@@ -72,7 +72,7 @@ class FeedforwardNetwork(nn.Module):
         # Implement me!
         
         self.linear1 = nn.Linear(n_features, hidden_size)
-        #self.linear2 = nn.Linear(hidden_size, hidden_size)
+        self.linear2 = nn.Linear(hidden_size, hidden_size)
         self.linear3 = nn.Linear(hidden_size, n_classes)
         
         self.dropout = nn.Dropout(p = dropout)
