@@ -71,6 +71,7 @@ class FeedforwardNetwork(nn.Module):
         super().__init__()
         #Implement a feed-forward neural network with a single layer using dropout
         self.input_layer = nn.Linear(n_features, hidden_size)
+        self.middle_layer = nn.Linear(hidden_size, hidden_size)
         self.output_layer = nn.Linear(hidden_size, n_classes)
         self.dropout = nn.Dropout(p=dropout)
         if activation_type == 'tanh':
@@ -89,6 +90,7 @@ class FeedforwardNetwork(nn.Module):
         #create the forward pass
         y_predicted = self.input_layer(x)
         y_predicted = self.activation(y_predicted)
+        y_predicted = self.middle_layer(y_predicted)
         y_predicted = self.dropout(y_predicted)
         y_predicted = self.output_layer(y_predicted)
         return y_predicted
