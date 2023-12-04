@@ -2,8 +2,8 @@
 
 # Deep Learning Homework 1
 
+%matplotlib inline
 import argparse
-
 import numpy as np
 import matplotlib.pyplot as plt
 
