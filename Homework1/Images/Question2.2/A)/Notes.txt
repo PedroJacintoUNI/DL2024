@@ -1,0 +1,3 @@
+Execution times:
+16 -> 3min 53s
+1024 -> 1min 12s

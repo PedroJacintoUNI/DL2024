@@ -72,7 +72,7 @@ class FeedforwardNetwork(nn.Module):
         # Implement me!
         
         self.linear1 = nn.Linear(n_features, hidden_size)
-        self.linear2 = nn.Linear(hidden_size, hidden_size)
+        #self.linear2 = nn.Linear(hidden_size, hidden_size)
         self.linear3 = nn.Linear(hidden_size, n_classes)
         
         self.dropout = nn.Dropout(p = dropout)
@@ -94,8 +94,8 @@ class FeedforwardNetwork(nn.Module):
         """
         y_pred = self.linear1(x)
         y_pred = self.activation(y_pred)
-        y_pred = self.linear2(y_pred)
-        y_pred = self.activation(y_pred)
+        #y_pred = self.linear2(y_pred)
+        #y_pred = self.activation(y_pred)
         y_pred = self.dropout(y_pred)
         y_pred = self.linear3(y_pred)
         
