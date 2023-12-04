@@ -94,6 +94,7 @@ class FeedforwardNetwork(nn.Module):
         """
         y_pred = self.linear1(x)
         y_pred = self.activation(y_pred)
+        y_pred = self.dropout(y_pred)
         y_pred = self.linear2(y_pred)
         y_pred = self.activation(y_pred)
         y_pred = self.dropout(y_pred)
