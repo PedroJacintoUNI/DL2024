@@ -11,8 +11,7 @@ import utils
 
 class LinearModel(object):
     def __init__(self, n_classes, n_features, **kwargs):
-        #self.W = np.zeros((n_classes, n_features))
-        self.W = np.random.RandomState(seed=42).randn(n_classes, n_features)
+        self.W = np.zeros((n_classes, n_features))
 
     def update_weight(self, x_i, y_i, **kwargs):
         scores = np.dot(self.W, x_i)
