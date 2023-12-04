@@ -184,7 +184,7 @@ def main():
                         need to change this value for your plots.""")
     parser.add_argument('-batch_size', default=1, type=int,
                         help="Size of training batch.")
-    parser.add_argument('-learning_rate', type=float, default=0.01)
+    parser.add_argument('-learning_rate', type=float, default=0.001)
     parser.add_argument('-l2_decay', type=float, default=0)
     parser.add_argument('-hidden_size', type=int, default=100)
     parser.add_argument('-layers', type=int, default=1)
