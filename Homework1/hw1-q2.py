@@ -204,6 +204,15 @@ def main():
 
     dev_X, dev_y = dataset.dev_X, dataset.dev_y
     test_X, test_y = dataset.test_X, dataset.test_y
+    
+    #Move data to gpu
+    my_device_train = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    dev_X = dev_X.to(my_device_train)
+    dev_y = dev_y.to(my_device_train)
+    
+    my_device_test = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    test_X = test_X.to(my_device_test)
+    test_y = test_y.to(my_device_test)
 
     n_classes = torch.unique(dataset.y).shape[0]  # 10
     n_feats = dataset.X.shape[1]
