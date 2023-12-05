@@ -136,8 +136,7 @@ class MLP(object):
             
             total_loss += loss
             
-        epoch_loss = total_loss / X.shape[0]
-        return epoch_loss
+        return total_loss
     #def forward
     def forward(self, x):
         num_layers = len(self.weights)

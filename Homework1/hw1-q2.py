@@ -94,9 +94,9 @@ class FeedforwardNetwork(nn.Module):
         """
         y_predicted = self.input_layer(x)
         y_predicted = self.activation(y_predicted)
-        y_predicted = self.dropout(y_predicted)
         y_predicted = self.middle_layer(y_predicted)
         y_predicted = self.activation(y_predicted)
+        y_predicted = self.dropout(y_predicted)
         y_predicted = self.output_layer(y_predicted)
         
         return y_predicted
