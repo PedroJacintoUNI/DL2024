@@ -70,6 +70,7 @@ class FeedforwardNetwork(nn.Module):
         """
         super().__init__()
         # Implement me!
+        self.layers = layers
         
         self.input_layer = nn.Linear(n_features, hidden_size)
         self.middle_layer = nn.Linear(hidden_size, hidden_size)
