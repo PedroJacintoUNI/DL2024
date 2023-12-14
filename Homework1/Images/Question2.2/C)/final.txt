@@ -1,0 +1,14 @@
+batch 256
+default -> 9min 8s -> 0.7807
+l2 -> 9min 16s -> 0.7864
+dropout -> 9min 41s -> 0.7845
+
+batch 16
+default -> 27min 23s -> 0.7618
+l2 ->
+dropout-> 28min 26s ->0.7656
+
+batch 100
+default ->
+l2 ->
+dropout -> 11min 11s -> 0.7656
