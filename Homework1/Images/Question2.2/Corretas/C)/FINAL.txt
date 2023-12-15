@@ -1,0 +1,11 @@
+default-> 9 min 30s -> 0.7732
+l2 -> 10min -> 0.7750
+dropout -> 9min 43s -> 0.7845
+
+
+drop -> lr 0.1 -> 0.7732
+drop -> lr 0.01 -> 0.7996 -> 8min 55s
+
+def->Final Test acc: 0.7845
+CPU times: user 9min 10s, sys: 6.37 s, total: 9min 16s
+Wall time: 9min 21s

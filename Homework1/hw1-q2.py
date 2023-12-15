@@ -211,9 +211,9 @@ def main():
     dev_X = dev_X.to(my_device_train)
     dev_y = dev_y.to(my_device_train)
     
-    my_device_test = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    test_X = test_X.to(my_device_test)
-    test_y = test_y.to(my_device_test)
+    #my_device_test = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    test_X = test_X.to(my_device_train)
+    test_y = test_y.to(my_device_train)
 
     n_classes = torch.unique(dataset.y).shape[0]  # 10
     n_feats = dataset.X.shape[1]
