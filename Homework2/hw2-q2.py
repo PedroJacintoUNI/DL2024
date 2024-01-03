@@ -17,7 +17,7 @@ import utils
 
 class CNN(nn.Module):
     
-    def __init__(self, dropout_prob, no_maxpool=False):
+    def __init__(self, dropout_prob, no_maxpool=True):
         super(CNN, self).__init__()
         self.no_maxpool = no_maxpool
         if not no_maxpool:
@@ -27,8 +27,10 @@ class CNN(nn.Module):
             self.fc1 = nn.Linear(16 * 6 * 6, 320)
         else:
             # Implementation for Q2.2
-            raise NotImplementedError
-        
+            self.conv1 = nn.Conv2d(1, 8, kernel_size=3, stride = 2, padding = 1)
+            self.conv2 = nn.Conv2d(8, 16, kernel_size=3, stride = 2, padding = 0)
+            self.fc1 = nn.Linear(8 * 16 * 6 * 6, 320)
+            
         # Implementation for Q2.1 and Q2.2
         self.fc2 = nn.Linear(320, 120)
         self.fc3 = nn.Linear(120, 4)
