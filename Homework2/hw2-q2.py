@@ -24,7 +24,7 @@ class CNN(nn.Module):
             # Implementation for Q2.1
             self.conv1 = nn.Conv2d(1, 8, kernel_size=3, stride = 1, padding = 1)
             self.conv2 = nn.Conv2d(8, 16, kernel_size= 3, stride = 1, padding = 0)
-            self.fc1 = nn.Linear(16 * 7 * 7, 320)
+            self.fc1 = nn.Linear(16 * 6 * 6, 320)
         else:
             # Implementation for Q2.2
             raise NotImplementedError
@@ -40,19 +40,25 @@ class CNN(nn.Module):
         # input should be of shape [b, c, w, h]
         # conv and relu layers
         print("Input shape before convolution:", x.shape)
+        x = x.reshape(len(x), 1, 28, 28)
         x = F.relu(self.conv1(x))
         # max-pool layer if using it
         if not self.no_maxpool:
             x = F.max_pool2d(x, kernel_size= 2, stride = 2)
-
+        # Convolution with 3x3 filter with padding=1 and 8 channels =>
+        #     x.shape = [8, 8, 28, 28]
+        # Max pooling with stride of 2 =>
+        #     x.shape = [8, 8, 14, 14]
         # conv and relu layers        
         x = F.relu(self.conv2(x))
-        # max-pool layer if using it
+        #x.shape = [8, 16, 12, 12] since 12 = 14 - 3 + 1
+
         if not self.no_maxpool:
             x = F.max_pool2d(x, kernel_size= 2, stride = 2)
+            #shape[8, 16, 6, 6]
         
         # prep for fully connected layer + relu
-        x = x.view(-1, 16 * x.size(2) * x.size(3))  # Adjusted input features based on the spatial dimensions
+        x = x.view(-1, 16 * 6 * 6)
         x = F.relu(self.fc1(x))
         # drop out
         x = self.drop(x)
