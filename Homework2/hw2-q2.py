@@ -39,6 +39,7 @@ class CNN(nn.Module):
     def forward(self, x):
         # input should be of shape [b, c, w, h]
         # conv and relu layers
+        print("Input shape before convolution:", x.shape)
         x = F.relu(self.conv1(x))
         # max-pool layer if using it
         if not self.no_maxpool:
