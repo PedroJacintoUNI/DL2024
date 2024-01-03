@@ -22,36 +22,42 @@ class CNN(nn.Module):
         self.no_maxpool = no_maxpool
         if not no_maxpool:
             # Implementation for Q2.1
-            raise NotImplementedError
+            self.conv1 = nn.Conv2d(1, 8, kernel_size=3, stride = 1, padding = 2)
+            self.conv2 = nn.Conv2d(8, 16, kernel_size= 3, stride = 1, padding = 0)
+            self.fc1 = nn.Linear(16 * 7 * 7, 320)
         else:
             # Implementation for Q2.2
             raise NotImplementedError
         
         # Implementation for Q2.1 and Q2.2
-        raise NotImplementedError
+        self.fc2 = nn.Linear(320, 120)
+        self.fc3 = nn.Linear(120, 4)
+        
+        self.drop = nn.Dropout(p = dropout_prob)
+        
         
     def forward(self, x):
         # input should be of shape [b, c, w, h]
         # conv and relu layers
-
+        x = F.relu(self.conv1(x))
         # max-pool layer if using it
         if not self.no_maxpool:
-            raise NotImplementedError
-        
-        # conv and relu layers
-        
+            x = F.max_pool2d(x, kernel_size= 2, stride = 2)
 
+        # conv and relu layers        
+        x = F.relu(self.conv2(x))
         # max-pool layer if using it
         if not self.no_maxpool:
-            raise NotImplementedError
+            x = F.max_pool2d(x, kernel_size= 2, stride = 2)
         
         # prep for fully connected layer + relu
-        
+        x = x.view(-1, 16 * 7 * 7)  # Adjust the input features based on your data dimensions
+        x = F.relu(self.fc1(x))
         # drop out
         x = self.drop(x)
 
         # second fully connected layer + relu
-        
+        x = F.relu(self.fc2(x))
         # last fully connected layer
         x = self.fc3(x)
         
