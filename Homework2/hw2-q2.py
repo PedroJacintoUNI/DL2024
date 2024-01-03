@@ -22,7 +22,7 @@ class CNN(nn.Module):
         self.no_maxpool = no_maxpool
         if not no_maxpool:
             # Implementation for Q2.1
-            self.conv1 = nn.Conv2d(1, 8, kernel_size=3, stride = 1, padding = 2)
+            self.conv1 = nn.Conv2d(1, 8, kernel_size=3, stride = 1, padding = 1)
             self.conv2 = nn.Conv2d(8, 16, kernel_size= 3, stride = 1, padding = 0)
             self.fc1 = nn.Linear(16 * 7 * 7, 320)
         else:
@@ -52,7 +52,7 @@ class CNN(nn.Module):
             x = F.max_pool2d(x, kernel_size= 2, stride = 2)
         
         # prep for fully connected layer + relu
-        x = x.view(-1, 16 * 7 * 7)  # Adjust the input features based on your data dimensions
+        x = x.view(-1, 16 * x.size(2) * x.size(3))  # Adjusted input features based on the spatial dimensions
         x = F.relu(self.fc1(x))
         # drop out
         x = self.drop(x)
