@@ -17,7 +17,7 @@ import utils
 
 class CNN(nn.Module):
     
-    def __init__(self, dropout_prob, no_maxpool=True):
+    def __init__(self, dropout_prob, no_maxpool=False):
         super(CNN, self).__init__()
         self.no_maxpool = no_maxpool
         if not no_maxpool:
@@ -117,7 +117,9 @@ def plot(epochs, plottable, ylabel='', name=''):
 
 def get_number_trainable_params(model):
     ## TO IMPLEMENT - REPLACE return 0
-    return 0
+    model_parameters_cnn = filter(lambda p: p.requires_grad, model.parameters())
+    params_cnn = sum([np.prod(p.size()) for p in model_parameters_cnn])
+    return params_cnn
 
 
 def main():
