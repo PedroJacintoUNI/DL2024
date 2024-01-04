@@ -25,14 +25,15 @@ class CNN(nn.Module):
             self.conv1 = nn.Conv2d(1, 8, kernel_size=3, stride = 1, padding = 1)
             self.conv2 = nn.Conv2d(8, 16, kernel_size= 3, stride = 1, padding = 0)
             self.fc1 = nn.Linear(16 * 6 * 6, 320)
+            self.fc2 = nn.Linear(320, 120)
         else:
             # Implementation for Q2.2
             self.conv1 = nn.Conv2d(1, 8, kernel_size=3, stride = 2, padding = 1)
             self.conv2 = nn.Conv2d(8, 16, kernel_size=3, stride = 2, padding = 0)
             self.fc1 = nn.Linear(16 * 6 * 6, 576)
+            self.fc2 = nn.Linear(576, 120)
             
         # Implementation for Q2.1 and Q2.2
-        self.fc2 = nn.Linear(320, 120)
         self.fc3 = nn.Linear(120, 4)
         
         self.drop = nn.Dropout(p = dropout_prob)
