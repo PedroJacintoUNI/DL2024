@@ -1,0 +1,20 @@
+train:
+validation:
+jaccard_similarity
+0.705
+
+cosine_similarity
+0.825
+
+damerau-levenshtein_similarity
+0.513
+
+loss
+1.174
+
+
+test:
+{'jaccard_similarity': 0.7149178437842456, 
+'cosine_similarity': 0.8324116011552667, 
+'damerau-levenshtein_similarity': 0.5087067982887039, 
+'loss': 1.1828283136937676}

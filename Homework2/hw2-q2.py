@@ -22,13 +22,13 @@ class CNN(nn.Module):
         self.no_maxpool = no_maxpool
         if not no_maxpool:
             # Implementation for Q2.1
-            self.conv1 = nn.Conv2d(1, 8, kernel_size=3, stride = 1, padding = 1)
+            self.conv1 = nn.Conv2d(1, 8, kernel_size=3, stride = 1, padding = 2)
             self.conv2 = nn.Conv2d(8, 16, kernel_size= 3, stride = 1, padding = 0)
             self.fc1 = nn.Linear(16 * 6 * 6, 320)
             self.fc2 = nn.Linear(320, 120)
         else:
             # Implementation for Q2.2
-            self.conv1 = nn.Conv2d(1, 8, kernel_size=3, stride = 2, padding = 1)
+            self.conv1 = nn.Conv2d(1, 8, kernel_size=3, stride = 2, padding = 2)
             self.conv2 = nn.Conv2d(8, 16, kernel_size=3, stride = 2, padding = 0)
             self.fc1 = nn.Linear(16 * 6 * 6, 576)
             self.fc2 = nn.Linear(576, 120)
@@ -118,9 +118,8 @@ def plot(epochs, plottable, ylabel='', name=''):
 
 def get_number_trainable_params(model):
     ## TO IMPLEMENT - REPLACE return 0
-    model_parameters_cnn = filter(lambda p: p.requires_grad, model.parameters())
-    params_cnn = sum([np.prod(p.size()) for p in model_parameters_cnn])
-    return params_cnn
+    total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    return total_params
 
 
 def main():

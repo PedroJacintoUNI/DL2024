@@ -1,0 +1,13 @@
+train:
+jaccard - 0.756
+cosine - 0.860
+demarau - 0.624
+loss -1.165
+
+
+
+test:
+{'jaccard_similarity': 0.7656004208754146,
+ 'cosine_similarity': 0.866035913102741, 
+'damerau-levenshtein_similarity': 0.6331809719866268, 
+'loss': 1.160304125489258}
